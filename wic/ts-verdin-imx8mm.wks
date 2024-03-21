@@ -1,0 +1,14 @@
+# short-description: Create verdin-imx8mm SD card image
+# long-description: Creates a partitioned SD card image for use with
+# verdin-imx8mm.
+#
+# Unfortunately this results in duplication of files in the root partition
+# and the boot partition.  The only file we will actually use from the boot
+# partition is boot.scr to make sure we can update the kernel and other
+# files OTA. The right solution would be to modify the u-boot environment
+# such that scan_dev_for_scripts pulled from swupdatepart by default.
+
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --size 20
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root --align 4096
+part --source rootfs --ondisk mmcblk0 --fstype=ext4 --label root2 --align 4096
+part --size 1G --ondisk mmcblk0 --fstype=ext4 --label data --align 4096
