@@ -1,0 +1,58 @@
+software =
+{
+	version = "1.0";
+
+	@@MACHINE@@ = {
+		hardware-compatibility: [ "1.0"];
+		stable : {
+			copy1 : {
+				images: (
+					{
+                        type = "delta";
+						filename = "torizon-core-lite-@@MACHINE@@.ext4.zck.zckheader";
+						device = "/dev/mmcblk0p2";
+                        properties: {
+                            url = "http://192.168.17.41:5678/torizon-core-lite-@@MACHINE@@.ext4.zck";
+                            chain = "raw";
+                            source = "/dev/mmcblk0p3";
+                        }
+					}
+				);
+				bootenv: (
+					{
+						name = "swupdatepart";
+						value = "2";
+					},
+					{
+						name = "ustate";
+						value = "1";
+					}
+				);
+			};
+			copy2 : {
+				images: (
+					{
+                        type = "delta";
+						filename = "torizon-core-lite-@@MACHINE@@.ext4.zck.zckheader";
+						device = "/dev/mmcblk0p3";
+                        properties: {
+                            url = "http://192.168.17.41:5678/torizon-core-lite-@@MACHINE@@.ext4.zck";
+                            chain = "raw";
+                            source = "/dev/mmcblk0p2";
+                        }
+					}
+				);
+				bootenv: (
+					{
+						name = "swupdatepart";
+						value = "3";
+					},
+					{
+						name = "ustate";
+						value = "1";
+					}
+				);
+			};
+		};
+	}
+}

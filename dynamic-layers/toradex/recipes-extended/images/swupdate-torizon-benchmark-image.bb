@@ -7,9 +7,17 @@ inherit swupdate
 
 SRC_URI = "\
     file://emmcsetup.lua \
-    file://sw-description \
+    file://sw-description.${UPDATER_BENCHMARKING_TYPE} \
 "
 
 IMAGE_DEPENDS = "torizon-core-lite"
 SWUPDATE_IMAGES = "torizon-core-lite"
 SWUPDATE_IMAGES_FSTYPES[torizon-core-lite] = ".ext4.gz"
+
+do_swuimage:prepend() {
+    target = "sw-description." + d.getVar("UPDATER_BENCHMARKING_TYPE")
+    link = d.getVar("WORKDIR") + "/sw-description"
+    if os.path.exists(link):
+        os.remove(link)
+    os.symlink(target, link)
+}
