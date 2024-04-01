@@ -12,7 +12,7 @@ SRC_URI = "\
 
 IMAGE_DEPENDS = "torizon-core-lite"
 SWUPDATE_IMAGES = "torizon-core-lite"
-SWUPDATE_IMAGES_FSTYPES[torizon-core-lite] = ".ext4.gz"
+SWUPDATE_IMAGES_FSTYPES[torizon-core-lite] = "${@'.ext4.zck.zckheader' if d.getVar('UPDATER_BENCHMARKING_TYPE') == 'delta' else '.ext4.gz'}"
 
 do_swuimage:prepend() {
     target = "sw-description." + d.getVar("UPDATER_BENCHMARKING_TYPE")
